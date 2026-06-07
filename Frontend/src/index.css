@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+/* Set Nunito Sans as the global font */
+body {
+	font-family: 'Nunito Sans', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
