@@ -73,9 +73,23 @@ async function logoutUser(req,res) {
     res.clearCookie('token')
     res.status(200).json({
         message:"User logged out sucessfully"
-    })
+    }) 
+}
+async function getProfile(req,res) {
+    try {
+        res.status(200).json({
+            message:"User Fetched sucessfully",
+            user:req.user
+        })
+        
+    } catch (error) {
+        res.status(500).json({
+            message:"Internal server error"
+        }
 
-    
+        )
+        
+    }
     
 }
-module.exports={registerUser,loginUser,logoutUser}
+module.exports={registerUser,loginUser,logoutUser,getProfile}
