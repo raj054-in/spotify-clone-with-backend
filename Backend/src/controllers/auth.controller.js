@@ -3,9 +3,22 @@ const jwt=require('jsonwebtoken')
 const bcrypt =require('bcryptjs')
 
 async function  registerUser(req,res) {
-    const {username,email,password,role='user'}=req.body
+    let {username,email,password,role='user'}=req.body
+    if (!username||!email|| !password) {
+        return res.status(400).json({
+            message:"Fill all the credentials"
+        })
+    }
+    const emailRegex = /^(?!\.)(?!.*\.\.)([a-z0-9_'+\-\.]*)[a-z0-9_+\-]@([a-z0-9][a-z0-9\-]*\.)+[a-z]{2,}$/i;
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({
+            message:"email format didn't matched"
+        })
+    }
+    role=role||"user"
    
-       const hash = await bcrypt.hash(password, 10)
+   
+    const hash = await bcrypt.hash(password, 10)
     
     const isUserAlreadyExists=await userModel.findOne({
         $or:[
@@ -39,14 +52,17 @@ async function  registerUser(req,res) {
 
 
 async function loginUser(req,res){
-    const {username,email,password}=req.body
+    const {email,password}=req.body
+    if (!email ||!password) {
+        return res.status(400).json({
+            message:"Fill all the Credentials"
+        })
+    }
     try {
         const user=await userModel.findOne({
-        $or:[{
-            email},
-            { username
-            }]
-        })
+            email
+        }).select('+password')
+       
         if(!user){
             return res.status(401).json({message:"Invalid Credentials"})
         }

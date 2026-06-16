@@ -24,6 +24,7 @@ export const useAuthStore = create((set) => ({
     logIn:async (form) => {
         set({isLoggingIn:true})
         try {
+            console.log(form)
             const res=await axiosInstance.post('/auth/login',form)
             const user =res.data.user?? res.data
             set({authUser:user})
@@ -40,6 +41,33 @@ export const useAuthStore = create((set) => ({
     },
     isCheckingAuth:false,
     checkAuth:async (token) => {
-        
+        set({isCheckingAuth:true})
+        try {
+            const res=await axiosInstance.get('/auth/get-profile')
+            const user=res.data.user?? res.data
+            set({authUser:user})
+            
+        } catch (error) {
+            set({authUser:null})
+            const msg=error?.response?.data?.message||error?.message||"Profile not Fetched"
+                    
+        }finally{
+            set({isCheckingAuth:false})
+        }
+    },
+    isLoggingOut:false,
+    logOut:async () => {
+        set({isLoggingOut:true})
+        try {
+            const res=await axiosInstance.post('/auth/logout')
+            set({authUser:null})
+            toast.success("Logged out sucessfully")
+            
+        } catch (error) {
+            const msg=error?.response?.data?.message||error?.message||"can't logout" 
+        }
+        finally{
+            set({isLoggingOut:false})
+        }
     }
 }));

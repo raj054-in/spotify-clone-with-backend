@@ -5,9 +5,16 @@ import SpotifyLogo from '../../assets/spotifyLogo/Spotify_Symbol_11.webp'
 import { RxDividerVertical } from "react-icons/rx";
 import { GoHomeFill } from "react-icons/go";
 import { MdOutlineDownloadForOffline } from "react-icons/md";
+import { useAuthStore } from '../../store/useAuthStore';
 const NavBar = () => {
+  const logOut=useAuthStore((state)=>state.logOut)
+
+
+
+
+
   return (
-    <div className=' flex gap-3 items-center justify-between  text-white py-2 px-2.5'>
+    <nav className=' sticky top-0 z-50 bg-black  flex gap-3 items-center justify-between  text-white py-2 px-2.5'>
       
       <div className='flex items-center gap-3'>
         <img className=' w-8 h-8 cursor-pointer mr-2' src={SpotifyLogo} alt="" />
@@ -26,13 +33,16 @@ const NavBar = () => {
         <TextShow text='Download'/>
         <RxDividerVertical className=' h-8 w-8'/>
         <TextShow  text='InstallApp'/>
-        <TextShow text='Sign up'/>
+        
         <div className=' py-3 px-7 rounded-4xl bg-white flex items-center justify-center hover:scale-105 transition-transform cursor-pointer'>
-        <TextShow text='Log in' hover="yes" className='text-black hover:text-black'/>
+        <TextShow onClick={logOut}  text='Upload' hover="yes"  className='text-black hover:text-black'/>
+        </div>
+        <div className=' py-3 px-7 rounded-4xl bg-white flex items-center justify-center hover:scale-105 transition-transform cursor-pointer'>
+        <TextShow onClick={logOut}  text='Log Out' hover="yes"  className='text-black hover:text-black'/>
         </div>
       </div>
 
-    </div>
+    </nav>
   )
 }
 
