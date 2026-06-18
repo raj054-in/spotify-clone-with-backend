@@ -33,7 +33,6 @@ export const HomePage = () => {
         </div>
         
         <div className='flex flex-col gap-6  mt-10 ml-10' id="trending_song_div">
-          
           <div className=' flex justify-between mr-10'>
           <p className=' text-2xl font-bold cursor-pointer tracking-tight hover:underline'>Albums</p>
           <p className=' font-medium tracking-tight cursor-pointer hover:underline'>Show all</p>
