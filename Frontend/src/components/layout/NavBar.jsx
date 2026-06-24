@@ -11,6 +11,7 @@ import toast from 'react-hot-toast';
 
 
 const NavBar = () => {
+  
   const navigate=useNavigate()
   const logOut=useAuthStore((state)=>state.logOut)
   const authUser=useAuthStore((state)=>state.authUser)
@@ -52,7 +53,7 @@ const NavBar = () => {
         <TextShow  text='InstallApp'/>
         
         <div className=' py-3 px-7 rounded-4xl bg-white flex items-center justify-center hover:scale-105 transition-transform cursor-pointer'>
-        <TextShow onClick={handleUploadClick}   text='Upload' hover="yes"  className='text-black hover:text-black'/>
+        <TextShow onClick={handleUploadClick}   text='Studio' hover="yes"  className='text-black hover:text-black'/>
         </div>
         <div className=' py-3 px-7 rounded-4xl bg-white flex items-center justify-center hover:scale-105 transition-transform cursor-pointer'>
         <TextShow onClick={logOut}  text='Log Out' hover="yes"  className='text-black hover:text-black'/>

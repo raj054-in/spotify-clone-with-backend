@@ -10,8 +10,8 @@ const upload=multer({
 
 
 
-route.post("/upload",authMiddlewear.authArtist, upload.single("music") ,musicController.createMusic)
-route.post("/create-album",authMiddlewear.authArtist,musicController.createAlbum)
+route.post("/upload",authMiddlewear.authArtist, upload.fields([{name:"music",maxCount:1},{name:"image",maxCount:1}]) ,musicController.createMusic)                                 
+route.post("/create-album", upload.single('image')  ,authMiddlewear.authArtist,musicController.createAlbum)
 route.get('/',authMiddlewear.authUser,musicController.getAllMusic)
 route.get('/album',authMiddlewear.authUser,musicController.getAllAlbum)
 route.get('/album/:albumID',authMiddlewear.authUser,musicController.getAlbumMusic)

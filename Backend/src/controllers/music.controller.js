@@ -4,33 +4,62 @@ const  jwt =require('jsonwebtoken');
 const uploadImage = require("../services/storage.service");
 
 async function createMusic(req,res){
-    const {title}=req.body
-    const file=req.file
-    
-    const uploadResponse=await uploadImage(file)
-    const  music=await musicModel.create({
-        uri:uploadResponse.url,
-        title,
-        artist:req.user.id
-    })
-    res.status(201).json({
-        message:"Music added sucessfully",
-        music
-    })
+    try {
+        
+        const {title}=req.body
+        const file=req.files
+       
+         if (!file||!file['music'][0]||!file['image'][0]) {
+            return res.status(400).json({
+                message:"Add Music and Music Image"
+            }) 
+        }
+        
+        const uploadResponseMusic=await uploadImage(file['music'][0])
+        const uploadResponseImage=await uploadImage(file['image'][0])
+        const  music=await musicModel.create({
+            image:uploadResponseImage.url,
+            uri:uploadResponseMusic.url,
+            title,
+            artist:req.user.id
+        })
+        res.status(201).json({
+            message:"Music added sucessfully",
+            music
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message:error.message
+        }
+        )
+        
+    }
+   
 }
 async function createAlbum(req,res){
-    const  {title,musicIds}=req.body
-    
-    const album=await albumModel.create({
-        title ,
-        musics:musicIds,
-        artist:req.user.id
-    
-    })
-    res.status(201).json({
-        message:"Music added sucessfully",
-        album
-    })
+    try {
+        const  {title,musicIds}=req.body
+        const file = req.file
+        const imageUploadResponse = await uploadImage(file)
+        
+        const album=await albumModel.create({
+            image:imageUploadResponse,
+            title ,
+            musics:musicIds,
+            artist:req.user.id
+        
+        })
+        res.status(201).json({
+            message:"Music added sucessfully",
+            album
+        })
+        
+    } catch (error) {
+        res.status(500).json({
+            message:error.message
+        })
+        
+    }
 }
 async function getAllMusic(req,res) {
     const music=await musicModel.find().limit(20)
