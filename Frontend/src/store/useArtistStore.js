@@ -15,9 +15,7 @@ export const useArtistStore=create((set)=>({
                 timeout: 60000 
             })
             toast.success(res.data.message)
-            return true
-
-            
+            return true   
         } catch (error) {
             const msg=error?.response?.data?.message||error?.message||"Adding Music Failed"
             toast.error(msg)
@@ -25,6 +23,26 @@ export const useArtistStore=create((set)=>({
             
         }finally{
             set({uploadingMusic:false})
+        }
+        
+    },
+    artistMusic:[],
+    artistMusicFetching:false,
+    getArtistsMusic:async () => {
+        set({artistMusicFetching:true})
+        try {
+            const res=await axiosInstance.get("/music/get-artists-music")
+            set({artistMusic:res.data.music})
+            console.log(res.data.music)
+            
+            
+        } catch (error) {
+            set({artistMusic:null})
+            const msg=error?.response?.data?.message||error?.message||"Can't fetch artists music"
+            
+        }finally{
+            set({artistMusicFetching:false})
+            
         }
         
     }

@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Card = ({ image, title, subtitle, type = 'song' }) => {
+const Card = ({ key,image, title, subtitle, type = 'song' }) => {
   return (
-    <div className="w-48 p-4 bg-[#121212] hover:bg-[#1f1f1f] rounded-lg transition-colors duration-300 group cursor-pointer select-none">
+    <div key={key} className="w-48 p-4 bg-[#121212] hover:bg-[#1f1f1f] rounded-lg transition-colors duration-300 group cursor-pointer select-none">
       {/* Media Container */}
       <div className="relative mb-4">
         <img

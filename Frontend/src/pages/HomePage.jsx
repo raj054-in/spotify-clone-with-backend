@@ -1,8 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import NavBar from '../components/layout/NavBar'
 import Cards from '../components/shared/Cards'
+import { useUserStore } from '../store/useUserStore'
 
  const HomePage = () => {
+  const {fetchingMusic, getAllMusics}=useUserStore()
+  const musics =useUserStore((state)=>state.musics)
+ 
+  useEffect(()=>{
+    getAllMusics()
+  },[])
+  console.log(musics)
+
+  
+
+
+
+
   return (
     <div className=' bg-black text-white h-screen flex flex-col w-full'>
         
@@ -15,8 +29,16 @@ import Cards from '../components/shared/Cards'
           <p className=' font-medium tracking-tight cursor-pointer hover:underline'>Show all</p>
           </div>
 
-          <div >
-          <Cards/>
+          <div className=' flex gap-8' >
+            {
+              musics.map((music)=>(
+                <Cards key={music._id} image={music.image} title={music.title } />
+              
+
+              ))
+            }
+
+         
           </div>
         </div>
 
@@ -28,8 +50,8 @@ import Cards from '../components/shared/Cards'
           <p className=' font-medium tracking-tight cursor-pointer hover:underline'>Show all</p>
           </div>
 
-          <div>
-          <Cards/>
+          <div className=' flex gap-8'>
+          <Cards />
           </div>
         </div>
 

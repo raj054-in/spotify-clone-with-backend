@@ -62,11 +62,38 @@ async function createAlbum(req,res){
     }
 }
 async function getAllMusic(req,res) {
-    const music=await musicModel.find().limit(20)
-    res.status(200).json({
+    try {
+        const music=await musicModel.find().limit(20)
+        res.status(200).json({
+            message:"All the music are fetched sucessfully",
+            music
+        })   
+        
+    } catch (error) {
+        res.status(500).json({
+            message:"Failed To Fetch the Musics",
+            error:error
+        })
+        
+    }
+}
+async function getArtistsMusic(req,res) {
+    try {
+        const music = await musicModel.find({artist:req.user.id})
+
+        res.status(200).json({
         message:"All the music are fetched sucessfully",
         music
-    })
+    }) 
+        
+    } catch (error) {
+         res.status(500).json({
+            message:"Failed to fetch the Artists Music",
+            error:error
+        })
+        
+        
+    }
     
 }
 async function getAllAlbum(req,res) {
@@ -92,4 +119,5 @@ async function getAlbumMusic(req,res) {
 
 }
 
-module.exports={createMusic,createAlbum,getAllMusic,getAllAlbum,getAlbumMusic}
+
+module.exports={createMusic,createAlbum,getAllMusic,getAllAlbum,getAlbumMusic,getArtistsMusic}
