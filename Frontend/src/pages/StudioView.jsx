@@ -9,8 +9,8 @@ const StudioView = () => {
   
 
   return (
-    <div className=' text-white flex gap-2  bg-black h-screen w-full'>
-     <div id="sidebar" className=' w-[25%]  h-screen bg-neutral-800 rounded-lg '  >
+    <div className='text-white flex h-full w-full gap-2 bg-black'>
+     <div id="sidebar" className='h-full w-[25%] rounded-lg bg-neutral-800'  >
       <div id="artist" className='border-b-2 pb-2 border-white flex gap-2 items-center pl-2 pt-2'>
         
         <p className=' font-spotify-circular'>{authUser.username}  </p>
@@ -27,7 +27,7 @@ const StudioView = () => {
      </div>
 
 
-      <main className=' bg-linear-to-b from-neutral-700 to-black rounded-lg w-full'>
+      <main className='w-full overflow-hidden rounded-lg bg-linear-to-b from-neutral-700 to-black'>
         <Outlet/>
       </main>
     </div>

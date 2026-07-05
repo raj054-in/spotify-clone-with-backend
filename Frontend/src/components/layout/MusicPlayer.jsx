@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FaPlay,FaPause, FaForwardStep, FaBackwardStep } from "react-icons/fa6";
 import { useUserStore } from '../../store/useUserStore';
 
@@ -7,8 +7,19 @@ import { useUserStore } from '../../store/useUserStore';
 const MusicPlayer = () => {
     const{isPlaying,currentTrack,  isSelected,togglePlay,nextTrack,prevTrack}=useUserStore()
     const audioTrack =useRef(null)
-    console.log(audioTrack.current)
-    console.log(audioTrack)
+    const [currnetTime ,setCurrentTime]= useState(0)
+    const [duration ,setDuration]=useState(0)
+    const formatTime=(seconds)=>{
+      if (isNaN(seconds)) {
+        return "00:00"
+      }
+      const min= Math.floor(seconds/60)
+      const sec=Math.floor(seconds%60)
+      return `${min}:${sec<10?"0":""}${sec}`
+    }
+    // console.log(currnetTime,duration)
+    // console.log(audioTrack.current)
+    // console.log(audioTrack)
     useEffect(()=>{
       if (!audioTrack.current) return;
       if (isPlaying) {
@@ -16,8 +27,14 @@ const MusicPlayer = () => {
       }else{
         audioTrack.current.pause()
       }
-
     },[isPlaying,currentTrack])
+    const handleSliderChange=(e)=>{
+      const newTime=Number(e.target.value)
+
+      setCurrentTime(newTime)
+      audioTrack.current.currentTime=newTime
+
+    }
 
     const handleVolumeChange=(e)=>{
       console.log(e.target.value)
@@ -29,7 +46,7 @@ const MusicPlayer = () => {
   return (
       <>
        {currentTrack?(
-        <div className=' flex justify-between'>
+      <div className='flex w-full items-center justify-between gap-4 text-white'>
 
           <div id="songsInfo">
             <img className=' h-8 w-8' src={currentTrack.image} alt="" />
@@ -46,19 +63,20 @@ const MusicPlayer = () => {
             </div>
 
             <div id='duration'>
-              <input  id='songs_range' type='range' />
+              <input value={currnetTime} onChange={handleSliderChange} min={0} max={duration}  id='songs_duration' type='range' />
+            {formatTime(currnetTime)}
             </div>
 
           </div>
-          <div id="volume-controls">
-            <input step={'any'} min={0} max={1} onChange={handleVolumeChange} id='volume_range' type="range" />
+          <div className=' text-white' id="volume-controls">
+            <input step={'any'} min={0} defaultValue={1} max={1} onChange={handleVolumeChange} id='volume_range' type="range" />
 
 
           </div>
 
 
 
-          <audio ref={audioTrack}  src={currentTrack.uri}></audio>
+          <audio onLoadedMetadata={(e)=>{setDuration(e.target.duration)}} onTimeUpdate={(e)=>{setCurrentTime(e.target.currentTime)}} ref={audioTrack} hidden src={currentTrack.uri}></audio>
 
         </div>
         

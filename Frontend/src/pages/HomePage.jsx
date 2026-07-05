@@ -15,9 +15,9 @@ import MusicPlayer from '../components/layout/MusicPlayer'
   console.log(musics)
   
   return (
-    <div className=' bg-black text-white h-screen flex flex-col w-full'>
+    <div className='flex h-full w-full flex-col overflow-hidden bg-black text-white'>
         
-        <div className=' h-auto bg-linear-to-b from-neutral-700 to-black w-full rounded-lg bg-white '>
+      <div className='flex-1 overflow-y-auto no-scrollbar rounded-lg bg-linear-to-b from-neutral-700 to-black w-full'>
 
         <div className=' flex flex-col gap-6  mt-10 ml-10' id="trending_song_div">
 
@@ -54,7 +54,9 @@ import MusicPlayer from '../components/layout/MusicPlayer'
 
         </div>
 
-        <MusicPlayer  />
+        <div className='shrink-0 border-t border-white/10 bg-black/90 px-4 py-3 backdrop-blur-md'>
+          <MusicPlayer />
+        </div>
 
     </div>
   )
