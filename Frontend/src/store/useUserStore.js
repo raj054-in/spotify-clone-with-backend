@@ -8,7 +8,7 @@ export const useUserStore=create((set,get)=>({
     getAllMusics:async () => {
         set({fetchingMusic:true})
         try {
-          const res=await   axiosInstance.get("/music/")
+          const res=await   axiosInstance.get("/music/all-music")
           set({musics:res.data.music})
           
          
@@ -24,6 +24,46 @@ export const useUserStore=create((set,get)=>({
         }
         
     },
+    Albums:[],
+    fetchingAlbum:false,
+    getAllAlbum:async () => {
+        set({fetchingAlbum:true})
+        try {
+            const res= await axiosInstance.get("/music/all-album")
+            set({Albums:res.data.album})
+            
+            
+            
+        } catch (error) {
+            const msg=error?.response?.data?.message||error?.message||"can't Fetch the Albums" 
+            toast.error(msg)
+            set({Albums:[]})
+            
+        }
+        finally{
+            set({fetchingAlbum:false})
+
+        }
+
+        
+    },
+    fetchingAlbumMusic:false,
+    AlbumMusic:null,
+    getAlbumsMusic:async (id) => {
+        set({fetchingAlbumMusic:true})
+        try {
+            const res =await axiosInstance.get(`/music/album/${id}`)
+            set({AlbumMusic:res.data.album})
+            console.log(res)
+        } catch (error) {
+            const msg=error?.response?.data?.message||error?.message||"can't Fetch  Album Music" 
+            toast.error(msg)
+            set({AlbumMusic:null})
+        }finally{
+            set({fetchingAlbumMusic:false})
+        }   
+    },
+    isAlbumTrack:false,
     isPlaying:false,
     currentTrack:null,
     isSelected:null,
@@ -48,8 +88,4 @@ export const useUserStore=create((set,get)=>({
     togglePlay:()=>{
         set((state)=>({isPlaying:!state.isPlaying}))
     }
-
-
-
-
 }))

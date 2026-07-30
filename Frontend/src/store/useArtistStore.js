@@ -31,7 +31,7 @@ export const useArtistStore=create((set)=>({
     getArtistsMusic:async () => {
         set({artistMusicFetching:true})
         try {
-            const res=await axiosInstance.get("/music/get-artists-music")
+            const res=await axiosInstance.get("/music/artist-music")
             set({artistMusic:res.data.music})
             console.log(res.data.music)
             
@@ -50,7 +50,7 @@ export const useArtistStore=create((set)=>({
     getAritstAlbum:async () => {
         set({aritstAlbumFetching:true})
         try {
-            const res=await axiosInstance.get("/music/album")
+            const res=await axiosInstance.get("/music/artist-album")
             
             
         } catch (error) {

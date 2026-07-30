@@ -11,6 +11,7 @@ import MyMusic from './pages/studio/MyMusic'
 import MyAlbums from './pages/studio/MyAlbums'
 import UploadMusic from './pages/studio/UploadMusic'
 import CreateAlbum from './pages/studio/createAlbum'
+import AlbumView from './pages/AlbumView'
 
 
 
@@ -54,6 +55,7 @@ const App = () => {
             <Route path='create-album' element ={<CreateAlbum/>}/>
 
           </Route>
+          <Route path='/album-songs/:albumId' element={<AlbumView/>} />
         </Route>
 
         

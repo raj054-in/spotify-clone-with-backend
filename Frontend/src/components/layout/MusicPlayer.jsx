@@ -81,7 +81,7 @@ const MusicPlayer = () => {
         </div>
         
       
-      ): ( <p>No music</p> ) } 
+      ): ( <p>Select a music to play....</p> ) } 
       </>
   
     

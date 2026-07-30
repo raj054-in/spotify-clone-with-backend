@@ -123,10 +123,10 @@ async function getArtistsAlbums(req, res) {
 }
 async function getAlbumMusic(req,res) {
     const albumID=req.params.albumID
-    const music =await albumModel.findById(albumID).populate('musics').populate('artist','username email').limit(20)
+    const album =await albumModel.findById(albumID).populate('musics').populate('artist','username email').limit(20)
     res.status(200).json({
         message:"Album Music has been fetched sucessfully",
-        music
+        album
     })
 
 

@@ -6,13 +6,16 @@ import MusicPlayer from '../components/layout/MusicPlayer'
 
  const HomePage = () => {
   const {fetchingMusic, getAllMusics,currentTrack}=useUserStore()
+  const {fetchingAlbum,getAllAlbum,Albums}=useUserStore()
   const musics =useUserStore((state)=>state.musics)
   console.log('this is current track :',currentTrack)
  
   useEffect(()=>{
     getAllMusics()
+    getAllAlbum()
   },[])
   console.log(musics)
+  console.log("these are all the albusm",  Albums)
   
   return (
     <div className='flex h-full w-full flex-col overflow-hidden bg-black text-white'>
@@ -29,18 +32,11 @@ import MusicPlayer from '../components/layout/MusicPlayer'
           <div className=' flex gap-8' >
             {
               musics.map((music)=>(
-                <Cards id={music._id} image={music.image} title={music.title } track={music}  />
-              
-
+                <Cards id={music._id} image={music.image} title={music.title } track={music} subtitle={music.artist.username} type='song'  />
               ))
             }
-
-         
           </div>
-        </div>
-
-       
-        
+        </div>  
         <div className='flex flex-col gap-6  mt-10 ml-10' id="trending_song_div">
           <div className=' flex justify-between mr-10'>
           <p className=' text-2xl font-bold cursor-pointer tracking-tight hover:underline'>Albums</p>
@@ -48,12 +44,15 @@ import MusicPlayer from '../components/layout/MusicPlayer'
           </div>
 
           <div className=' flex gap-8'>
-          <Cards />
+            {
+              Albums.map((album)=>(
+                <Cards id={album._id} image={album.image} title={album.title} subtitle={album.artist.username} type='album' />
+              ))
+            }
+          
           </div>
         </div>
-
         </div>
-
         <div className='shrink-0 border-t border-white/10 bg-black/90 px-4 py-3 backdrop-blur-md'>
           <MusicPlayer />
         </div>
