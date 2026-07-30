@@ -43,6 +43,18 @@ export const useArtistStore=create((set)=>({
         }finally{
             set({artistMusicFetching:false})
             
+        }    
+    },
+    artistAlbums:[],
+    aritstAlbumFetching:false,
+    getAritstAlbum:async () => {
+        set({aritstAlbumFetching:true})
+        try {
+            const res=await axiosInstance.get("/music/album")
+            
+            
+        } catch (error) {
+            
         }
         
     }

@@ -2,21 +2,21 @@ const mongoose=require('mongoose')
 const albumSchemma=new mongoose.Schema({
     image:{
         type:String,
-        require:true
+        required:true
     },
     title:{
         type:String,
-        require:true
+        required:true
     },
     musics:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:'music',
-        require:true
+        required:true
     }],
     artist:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'user',
-        require:true
+        required:true
     }
 })
 const albumModel=mongoose.model("album",albumSchemma)

@@ -3,6 +3,7 @@ const albumModel = require("../models/album.model");
 const  jwt =require('jsonwebtoken');
 const uploadImage = require("../services/storage.service");
 
+
 async function createMusic(req,res){
     try {
         
@@ -43,7 +44,7 @@ async function createAlbum(req,res){
         const imageUploadResponse = await uploadImage(file)
         
         const album=await albumModel.create({
-            image:imageUploadResponse,
+            image:imageUploadResponse.url,
             title ,
             musics:musicIds,
             artist:req.user.id
@@ -63,7 +64,7 @@ async function createAlbum(req,res){
 }
 async function getAllMusic(req,res) {
     try {
-        const music=await musicModel.find().limit(20)
+        const music=await musicModel.find().limit(20).populate("artist",'username email')
         res.status(200).json({
             message:"All the music are fetched sucessfully",
             music
@@ -99,7 +100,6 @@ async function getArtistsMusic(req,res) {
 async function getAllAlbum(req,res) {
     const album=   await albumModel.find().limit(20)
     .limit(10)
-    .select('title artist')
     .populate('artist','username email')
 
         res.status(200).json({
@@ -108,9 +108,22 @@ async function getAllAlbum(req,res) {
     })
     
 }
+async function getArtistsAlbums(req, res) {
+    const album=await albumModel.find({
+        artist:req.user.id
+    }).limit(10)
+       res.status(200).json({
+        message:"Artists Albums fetched sucessfully"  ,
+        album
+    })
+    console.log(album)
+
+
+    
+}
 async function getAlbumMusic(req,res) {
     const albumID=req.params.albumID
-    const music =await albumModel.findById(albumID).populate('musics') .populate('artist','username email').limit(20)
+    const music =await albumModel.findById(albumID).populate('musics').populate('artist','username email').limit(20)
     res.status(200).json({
         message:"Album Music has been fetched sucessfully",
         music
@@ -120,4 +133,4 @@ async function getAlbumMusic(req,res) {
 }
 
 
-module.exports={createMusic,createAlbum,getAllMusic,getAllAlbum,getAlbumMusic,getArtistsMusic}
+module.exports={createMusic,createAlbum,getAllMusic,getAllAlbum,getAlbumMusic,getArtistsAlbums,getArtistsMusic}
