@@ -3,7 +3,7 @@ import { useUserStore } from '../../store/useUserStore';
 import { useNavigate } from 'react-router-dom';
 
 const Card = ({ id,image, title, subtitle, type ,track }) => {
-  const {isPlaying,selectTrack}=useUserStore()
+  const {isPlaying,selectTrack, setMusicMode}=useUserStore()
   const navigate=useNavigate()
   
   return (
@@ -22,7 +22,19 @@ const Card = ({ id,image, title, subtitle, type ,track }) => {
         <button 
           className="absolute bottom-2 right-2 bg-[#1ed760] hover:bg-[#1fdf64] w-12 h-12 rounded-full flex items-center justify-center shadow-2xl opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-in-out hover:scale-105 transform active:scale-95"
           aria-label={`Play ${title}`}
-          onClick={()=> type=='song'?  selectTrack(track):navigate(`album-songs/${id}`)
+          onClick={()=> {
+            if (type=='song') {
+              selectTrack(track)
+              setMusicMode()
+              
+             
+              
+              
+            } else {
+              navigate(`album-songs/${id}`)
+              
+            }
+          }
         
           }
         >

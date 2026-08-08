@@ -33,7 +33,7 @@ export const useArtistStore=create((set)=>({
         try {
             const res=await axiosInstance.get("/music/artist-music")
             set({artistMusic:res.data.music})
-            console.log(res.data.music)
+           
             
             
         } catch (error) {
@@ -51,12 +51,22 @@ export const useArtistStore=create((set)=>({
         set({aritstAlbumFetching:true})
         try {
             const res=await axiosInstance.get("/music/artist-album")
+            set({artistAlbums:res.data.album})
+            
             
             
         } catch (error) {
+             set({artistAlbums:null})
+             const msg=error?.response?.data?.message||error?.message||"Can't fetch artists music"
             
         }
-        
+        finally{
+             set({aritstAlbumFetching:false})
+        }  
+    },
+    creatingAlbum:false,
+    createAlbum:async ()=>{
+
     }
 
 }))

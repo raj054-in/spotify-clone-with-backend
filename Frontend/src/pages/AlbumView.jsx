@@ -5,7 +5,7 @@ import MusicPlayer from '../components/layout/MusicPlayer'
 
 const AlbumView = () => {
   const { albumId } = useParams()
-  const { fetchingAlbumMusic, AlbumMusic, getAlbumsMusic, isPlaying, selectTrack, isAlbumTrack } = useUserStore()
+  const { fetchingAlbumMusic, AlbumMusic, getAlbumsMusic, isPlaying, selectTrack,  setAlbumMode} = useUserStore()
 
   useEffect(() => {
     getAlbumsMusic(albumId)
@@ -101,7 +101,10 @@ const AlbumView = () => {
               key={track._id || index}
               className="grid grid-cols-[16px_1fr_1fr] gap-4 px-4 py-2.5 rounded-md hover:bg-white/10 group items-center text-sm cursor-pointer transition"
 
-              onClick={()=>{selectTrack(track)}}
+              onClick={()=>{
+                selectTrack(track)
+                setAlbumMode()
+                }}
             >
               {/* # Index / Play Icon on Hover */}
               <div className="flex items-center justify-center">

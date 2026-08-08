@@ -64,6 +64,8 @@ export const useUserStore=create((set,get)=>({
         }   
     },
     isAlbumTrack:false,
+    setAlbumMode: () => set({ isAlbumTrack: true }),
+    setMusicMode: () => set({ isAlbumTrack: false }),
     isPlaying:false,
     currentTrack:null,
     isSelected:null,
@@ -71,19 +73,21 @@ export const useUserStore=create((set,get)=>({
         set({currentTrack:song,isPlaying:true})
     },
     nextTrack:()=>{
-        const {currentTrack,musics}=get()
-        if(musics.length==0||!currentTrack) return
-        const currentIndex=musics.findIndex((track)=> track._id ===currentTrack._id)
-        const nextTrack=(currentIndex+1)%musics.length
-        set({currentTrack:musics[nextTrack],isPlaying:true})
-        
+        const {currentTrack,musics,isAlbumTrack,AlbumMusic}=get()
+        const queue=isAlbumTrack ?(AlbumMusic?.musics??[]):musics
+        if (!currentTrack || queue.length === 0) return
+
+        const currentIndex = queue.findIndex((track) => track._id === currentTrack._id)
+        const nextIndex = (currentIndex + 1) % queue.length
+        set({ currentTrack: queue[nextIndex], isPlaying: true })
     },
     prevTrack:()=>{
-        const {currentTrack,musics}=get()
-        if(musics.length==0||!currentTrack) return
-        const currentIndex=musics.findIndex((track)=> track._id ===currentTrack._id)
-        const prevTrack=(currentIndex-1+musics.length)%musics.length
-        set({currentTrack:musics[prevTrack],isPlaying:true})
+        const {currentTrack,musics,isAlbumTrack,AlbumMusic}=get()
+        const queue=isAlbumTrack ?(AlbumMusic?.musics??[]):musics
+         if (!currentTrack || queue.length === 0) return
+        const currentIndex=queue.findIndex((track)=> track._id ===currentTrack._id)
+        const prevTrack=(currentIndex-1+queue.length)%queue.length
+        set({currentTrack:queue[prevTrack],isPlaying:true})
     },
     togglePlay:()=>{
         set((state)=>({isPlaying:!state.isPlaying}))
